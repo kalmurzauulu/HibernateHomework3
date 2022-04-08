@@ -1,6 +1,7 @@
 package org.example;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -21,25 +22,20 @@ public class App
         Deliveryman deliveryman6 = new Deliveryman("Aza","Kumashbaev",40);
         Deliveryman deliveryman7 = new Deliveryman("Aza","Kumbaev",18);
 
-//      create(deliveryman1);
-//      create(deliveryman2);
-//      create(deliveryman3);
-//      create(deliveryman4);
-//      create(deliveryman5);
-//      create(deliveryman7);
+      create(deliveryman1);
+      create(deliveryman2);
+      create(deliveryman3);
+      create(deliveryman4);
+      create(deliveryman5);
+      create(deliveryman7);
 
         for (Deliveryman d:getAzaDelivetyman()){
             System.out.println(d);
         }
-        update(3,18);
-        update(4,18);
-        update(6,18);
-        update(2,18);
 
-        deleted(3);
-        deleted(4);
-        deleted(6);
-        deleted(2);
+        update();
+       delete();
+
 
 
     }
@@ -69,23 +65,21 @@ public class App
 
 
 
-    public static void update (int id,int age){
+    public static void update (){
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Deliveryman deliveryman = session.get(Deliveryman.class,id);
-        deliveryman.setAge(age);
+        Query query=session.createQuery("update Deliveryman  set age=18 where name='Aza'");query.executeUpdate();
         session.getTransaction().commit();
         System.out.println("Succesfully updated " );
         session.close();
     }
-    public static void deleted (int id) {
+    public static void delete () {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
-        Deliveryman deliveryman = session.get(Deliveryman.class, id);
-        session.delete(deliveryman);
+        Query query = session.createQuery("delete from Deliveryman where name='Aza'");query.executeUpdate();
         session.getTransaction().commit();
-        System.out.println("Succesfully deleted "+ deliveryman);
+        System.out.println("Succesfully deleted ");
         session.close();
     }
 }
